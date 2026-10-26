@@ -6,7 +6,8 @@ import hero from "@/assets/hero-inscription.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "InscriptAI — Unlock the Stories Written in Stone" },
+      { title: "InscriptAI"},
+        // — Unlock the Stories Written in Stone" 
       { name: "description", content: "Digitize ancient Tamil inscriptions with AI-powered OCR, Tamil text extraction and English translation." },
       { property: "og:title", content: "InscriptAI — Unlock the Stories Written in Stone" },
       { property: "og:description", content: "AI-powered recognition and translation of ancient Tamil inscriptions." },
