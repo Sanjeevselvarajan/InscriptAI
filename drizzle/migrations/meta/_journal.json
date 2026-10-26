@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793035411243,
+      "tag": "0000_create_inscription_analyses",
+      "breakpoints": true
+    }
+  ]
+}
