@@ -42,7 +42,7 @@ function fmtBytes(n: number) {
 }
 
 async function copy(text: string, label: string) {
-  if (!text.trim()) return toast.error(`No ${label} to copy`);
+  if (!text.trim()) return void toast.error(`No ${label} to copy`);
   try {
     await navigator.clipboard.writeText(text);
     toast.success(`${label} copied`);
@@ -89,19 +89,19 @@ function Analyze() {
   useEffect(() => {
     if (!id || !user) return;
     supabase.from("inscription_analyses").select("*").eq("id", id).maybeSingle().then(({ data, error }) => {
-      if (error || !data) return toast.error("Could not open that analysis.");
+      if (error || !data) return void toast.error("Could not open that analysis.");
       const meta = (data.analysis_metadata ?? {}) as Record<string, unknown>;
       setFilename(data.original_filename);
       setOcr({
         originalText: data.original_text ?? "",
         normalizedTamil: data.normalized_tamil,
         scriptType: data.script_type ?? "unknown",
-        lines: (meta.lines as OcrResult["lines"]) ?? [],
-        uncertainties: (meta.uncertainties as string[]) ?? [],
-        imageQuality: (meta.imageQuality as string) ?? "",
+        lines: (meta["lines"] as OcrResult["lines"]) ?? [],
+        uncertainties: (meta["uncertainties"] as string[]) ?? [],
+        imageQuality: (meta["imageQuality"] as string) ?? "",
         readable: true,
-        ocrProvider: (meta.ocrProvider as string) ?? "Gemini",
-        model: (meta.model as string) ?? "",
+        ocrProvider: (meta["ocrProvider"] as string) ?? "Gemini",
+        model: (meta["model"] as string) ?? "",
       });
       setTamil(data.edited_tamil ?? data.normalized_tamil ?? data.original_text ?? "");
       if (data.english_translation)
@@ -109,9 +109,9 @@ function Analyze() {
           literal: data.english_translation,
           readable: data.readable_translation ?? "",
           notes: data.translation_notes ?? "",
-          uncertainPassages: (meta.uncertainPassages as string[]) ?? [],
+          uncertainPassages: (meta["uncertainPassages"] as string[]) ?? [],
           translatable: true,
-          model: (meta.translationModel as string) ?? "",
+          model: (meta["translationModel"] as string) ?? "",
         });
       setAnalyzedAt(data.created_at);
       setSavedId(data.id);
@@ -146,7 +146,7 @@ function Analyze() {
   }, []);
 
   useEffect(() => {
-    if (!img) return setProcessedUrl(null);
+    if (!img) { setProcessedUrl(null); return; }
     const t = setTimeout(() => {
       const c = processImage(img, opts);
       setProcessedUrl(c.toDataURL("image/jpeg", 0.9));
@@ -190,7 +190,7 @@ function Analyze() {
   }
 
   async function runTranslation() {
-    if (!tamil.trim()) return toast.error("There is no Tamil text to translate");
+    if (!tamil.trim()) return void toast.error("There is no Tamil text to translate");
     setTranslating(true);
     setTrError(null);
     setStep(4, "active");
@@ -254,7 +254,7 @@ function Analyze() {
   }
 
   async function save() {
-    if (!user) return toast.error("Sign in to save analyses to your history");
+    if (!user) return void toast.error("Sign in to save analyses to your history");
     if (!ocr) return;
     setSaving(true);
     const row = {
@@ -277,7 +277,7 @@ function Analyze() {
       : supabase.from("inscription_analyses").insert(row).select("id").single();
     const { data, error } = await q;
     setSaving(false);
-    if (error) return toast.error(error.message.includes("JWT") ? "Your session expired. Please sign in again." : "Could not save: " + error.message);
+    if (error) return void toast.error(error.message.includes("JWT") ? "Your session expired. Please sign in again." : "Could not save: " + error.message);
     setSavedId(data.id);
     toast.success("Saved to your history");
   }
@@ -553,7 +553,7 @@ function SliderField(p: { label: string; value: number; min: number; max: number
   return (
     <div className={p.disabled ? "opacity-50" : ""}>
       <div className="mb-2 flex justify-between text-sm"><span>{p.label}</span><span className="text-muted-foreground">{p.value}</span></div>
-      <Slider aria-label={p.label} value={[p.value]} min={p.min} max={p.max} step={1} disabled={p.disabled} onValueChange={([v]) => p.onChange(v)} />
+      <Slider aria-label={p.label} value={[p.value]} min={p.min} max={p.max} step={1} disabled={!!p.disabled} onValueChange={([v]) => p.onChange(v ?? 0)} />
     </div>
   );
 }

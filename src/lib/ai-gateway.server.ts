@@ -23,7 +23,7 @@ export async function streamChat(opts: {
   schemaName: string;
   schema: Record<string, unknown>;
 }): Promise<string> {
-  const key = process.env.LOVABLE_API_KEY;
+  const key = process.env["LOVABLE_API_KEY"];
   if (!key) throw new AiError("The AI service is not configured. An administrator must add the AI key in Lovable Cloud.", 500);
 
   let res: Response;

@@ -37,7 +37,7 @@ export function processImage(img: HTMLImageElement, o: ProcessOptions): HTMLCanv
   const f = (259 * (k + 255)) / (255 * (259 - k));
 
   for (let i = 0; i < d.length; i += 4) {
-    let r = d[i], g = d[i + 1], bl = d[i + 2];
+    let r = d[i]!, g = d[i + 1]!, bl = d[i + 2]!;
     if (o.op !== "original") {
       const y = 0.299 * r + 0.587 * g + 0.114 * bl;
       r = g = bl = y;
@@ -59,10 +59,10 @@ export function processImage(img: HTMLImageElement, o: ProcessOptions): HTMLCanv
       for (let x = 1; x < w - 1; x++) {
         let n = 0;
         for (let dy = -1; dy <= 1; dy++)
-          for (let dx = -1; dx <= 1; dx++) win[n++] = src[((y + dy) * w + (x + dx)) * 4];
+          for (let dx = -1; dx <= 1; dx++) win[n++] = src[((y + dy) * w + (x + dx)) * 4]!;
         win.sort((a, z) => a - z);
         const p = (y * w + x) * 4;
-        d[p] = d[p + 1] = d[p + 2] = win[4];
+        d[p] = d[p + 1] = d[p + 2] = win[4]!;
       }
     }
   }
