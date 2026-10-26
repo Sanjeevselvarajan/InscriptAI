@@ -11,7 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AnalyzeRouteImport } from './routes/analyze'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,9 +26,19 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyzeRoute = AnalyzeRouteImport.update({
+  id: '/analyze',
+  path: '/analyze',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -38,34 +50,50 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
+  '/history': typeof HistoryRoute
   '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
+  '/history': typeof HistoryRoute
   '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/analyze': typeof AnalyzeRoute
   '/auth': typeof AuthRoute
+  '/history': typeof HistoryRoute
   '/how-it-works': typeof HowItWorksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth' | '/how-it-works'
+  fullPaths:
+    '/' | '/about' | '/analyze' | '/auth' | '/history' | '/how-it-works'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth' | '/how-it-works'
-  id: '__root__' | '/' | '/about' | '/auth' | '/how-it-works'
+  to: '/' | '/about' | '/analyze' | '/auth' | '/history' | '/how-it-works'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/analyze'
+    | '/auth'
+    | '/history'
+    | '/how-it-works'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AnalyzeRoute: typeof AnalyzeRoute
   AuthRoute: typeof AuthRoute
+  HistoryRoute: typeof HistoryRoute
   HowItWorksRoute: typeof HowItWorksRoute
 }
 
@@ -85,11 +113,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analyze': {
+      id: '/analyze'
+      path: '/analyze'
+      fullPath: '/analyze'
+      preLoaderRoute: typeof AnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-it-works': {
@@ -105,7 +147,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AnalyzeRoute: AnalyzeRoute,
   AuthRoute: AuthRoute,
+  HistoryRoute: HistoryRoute,
   HowItWorksRoute: HowItWorksRoute,
 }
 export const routeTree = rootRouteImport
