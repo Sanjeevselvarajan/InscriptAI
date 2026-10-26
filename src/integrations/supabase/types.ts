@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inscription_analyses: {
+        Row: {
+          analysis_metadata: Json
+          created_at: string
+          edited_tamil: string | null
+          english_translation: string | null
+          id: string
+          normalized_tamil: string | null
+          original_filename: string
+          original_text: string | null
+          readable_translation: string | null
+          script_type: string | null
+          translation_notes: string | null
+          user_id: string
+        }
+        Insert: {
+          analysis_metadata?: Json
+          created_at?: string
+          edited_tamil?: string | null
+          english_translation?: string | null
+          id?: string
+          normalized_tamil?: string | null
+          original_filename: string
+          original_text?: string | null
+          readable_translation?: string | null
+          script_type?: string | null
+          translation_notes?: string | null
+          user_id?: string
+        }
+        Update: {
+          analysis_metadata?: Json
+          created_at?: string
+          edited_tamil?: string | null
+          english_translation?: string | null
+          id?: string
+          normalized_tamil?: string | null
+          original_filename?: string
+          original_text?: string | null
+          readable_translation?: string | null
+          script_type?: string | null
+          translation_notes?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
