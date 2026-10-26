@@ -58,7 +58,7 @@ function History() {
 
   async function del(id: string) {
     const { error } = await supabase.from("inscription_analyses").delete().eq("id", id);
-    if (error) return toast.error("Could not delete: " + error.message);
+    if (error) return void toast.error("Could not delete: " + error.message);
     toast.success("Analysis deleted");
     qc.invalidateQueries({ queryKey: ["history"] });
   }
